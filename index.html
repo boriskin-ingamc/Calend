@@ -2,171 +2,1172 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Calendrier Semaines 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-https://html2canvas.hertzen.com/dist/html2canvas.min.jsscript>
+<title>Calendrier Semaines 2026 — Heineken</title>
+
+<!-- Librairie permettant de transformer le calendrier HTML en PNG -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 
-body{
-    margin:0;
-    background:#0D6B36;
-    display:flex;
-    justify-content:center;
-    padding:20px;
-    font-family:Arial,sans-serif;
+:root {
+    --heineken-dark: #00582b;
+    --heineken-green: #00843d;
+    --heineken-light: #19a957;
+    --heineken-white: #ffffff;
+    --gold: #d9b44a;
+    --cream: #f4edcf;
+    --dark: #073b24;
 }
 
-#calendar{
-    width:1800px;
-    height:1800px;
-    background:#0D6B36;
-    position:relative;
-    padding:40px;
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-h1{
-    text-align:center;
-    color:white;
-    font-size:72px;
-    margin:0;
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.08), transparent 18%),
+        radial-gradient(circle at 90% 80%, rgba(255,255,255,.07), transparent 20%),
+        #063d24;
+
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.logo{
-    position:absolute;
-    top:30px;
-    left:40px;
-    height:80px;
+/* =========================================================
+   BOUTONS
+   ========================================================= */
+
+.controls {
+    margin: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.grid{
-    margin-top:40px;
+button {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 25px;
 
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
+    background: white;
+    color: var(--heineken-dark);
+
+    font-weight: 800;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.25);
+
+    transition: .2s ease;
 }
 
-.week{
-    background:white;
-    border-radius:4px;
-    overflow:hidden;
-    box-shadow:0 2px 4px rgba(0,0,0,.2);
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.3);
 }
 
-.header{
-    background:#1B8E4B;
-    color:white;
-    text-align:center;
-    font-weight:bold;
-    padding:6px;
+button:active {
+    transform: scale(.97);
 }
 
-.content{
-    text-align:center;
-    padding:10px;
+/* =========================================================
+   CALENDRIER PRINCIPAL
+   ========================================================= */
+
+#calendar {
+
+    width: 1200px;
+    height: 1200px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 42px;
+
+    color: white;
+
+    background:
+        radial-gradient(circle at 20% 15%,
+            rgba(255,255,255,.09),
+            transparent 20%),
+
+        radial-gradient(circle at 80% 90%,
+            rgba(255,255,255,.07),
+            transparent 22%),
+
+        linear-gradient(
+            135deg,
+            #004f27,
+            #00843d 50%,
+            #00652f
+        );
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45);
+
+    border-radius: 18px;
 }
 
-.start{
-    font-size:18px;
+/* texture légère */
+
+#calendar::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .08;
+
+    background-image:
+        radial-gradient(#fff 1px, transparent 1px);
+
+    background-size: 16px 16px;
+
+    pointer-events: none;
 }
 
-.end{
-    font-size:18px;
-    color:#666;
+/* =========================================================
+   DECORATIONS ORGE
+   ========================================================= */
+
+.barley {
+
+    position: absolute;
+
+    width: 170px;
+    height: 350px;
+
+    opacity: .25;
+
+    pointer-events: none;
 }
 
-.barley{
-    position:absolute;
-    font-size:200px;
-    opacity:.05;
-    color:#FFD84D;
+.barley.left {
+    left: -25px;
+    bottom: -30px;
+    transform: rotate(-17deg);
 }
 
-.b1{
-    top:100px;
-    right:50px;
+.barley.right {
+    right: -25px;
+    top: 120px;
+    transform: rotate(18deg);
 }
 
-.b2{
-    bottom:100px;
-    left:50px;
+/* tige */
+
+.barley .stem {
+
+    position: absolute;
+
+    width: 7px;
+    height: 300px;
+
+    background: #d8b84d;
+
+    border-radius: 10px;
+
+    left: 80px;
+    top: 25px;
+
+    transform: rotate(-5deg);
 }
 
-button{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    padding:12px 20px;
+/* grains */
+
+.grain {
+
+    position: absolute;
+
+    width: 25px;
+    height: 12px;
+
+    background: #e4c65d;
+
+    border-radius: 100% 20% 100% 20%;
+
+    transform: rotate(-30deg);
+}
+
+.g1 { left: 60px; top: 50px; }
+.g2 { left: 92px; top: 65px; transform:rotate(30deg); }
+.g3 { left: 54px; top: 82px; }
+.g4 { left: 96px; top: 98px; transform:rotate(30deg); }
+.g5 { left: 48px; top: 116px; }
+.g6 { left: 100px; top: 132px; transform:rotate(30deg); }
+.g7 { left: 43px; top: 150px; }
+.g8 { left: 102px; top: 166px; transform:rotate(30deg); }
+.g9 { left: 40px; top: 185px; }
+.g10 { left: 100px; top: 202px; transform:rotate(30deg); }
+.g11 { left: 38px; top: 220px; }
+.g12 { left: 95px; top: 238px; transform:rotate(30deg); }
+
+/* =========================================================
+   HOUBLON
+   ========================================================= */
+
+.hops {
+
+    position: absolute;
+
+    width: 160px;
+    height: 160px;
+
+    opacity: .14;
+
+    pointer-events: none;
+}
+
+.hops.top-left {
+    left: 20px;
+    top: 20px;
+}
+
+.hops.bottom-right {
+    right: 15px;
+    bottom: 10px;
+}
+
+.hop {
+
+    position: absolute;
+
+    width: 45px;
+    height: 45px;
+
+    background: #b9d84d;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 7px rgba(185,216,77,.25),
+        12px 8px 0 -4px #8ab73b,
+        -10px 12px 0 -5px #9ac543;
+}
+
+.hop:nth-child(1) {
+    left: 50px;
+    top: 30px;
+}
+
+.hop:nth-child(2) {
+    left: 25px;
+    top: 70px;
+}
+
+.hop:nth-child(3) {
+    left: 80px;
+    top: 75px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+
+    position: relative;
+
+    z-index: 5;
+
+    display: grid;
+
+    grid-template-columns: 190px 1fr 190px;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+/* Logo */
+
+.logo {
+
+    width: 180px;
+    height: 100px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.logo-star {
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 37px;
+
+    line-height: 1;
+}
+
+.logo-name {
+
+    font-size: 27px;
+
+    font-family:
+        Arial Black,
+        Arial,
+        sans-serif;
+}
+
+/* titre */
+
+.title {
+
+    text-align: center;
+}
+
+.title .year {
+
+    font-size: 72px;
+
+    line-height: .85;
+
+    font-weight: 900;
+
+    letter-spacing: -4px;
+}
+
+.title .subtitle {
+
+    margin-top: 8px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+}
+
+.title .line {
+
+    width: 130px;
+    height: 3px;
+
+    margin: 12px auto 0;
+
+    background: var(--gold);
+}
+
+/* badge */
+
+.badge {
+
+    justify-self: end;
+
+    padding: 10px 15px;
+
+    border: 1px solid rgba(255,255,255,.35);
+
+    border-radius: 12px;
+
+    background: rgba(0,0,0,.12);
+
+    text-align: center;
+}
+
+.badge strong {
+
+    display: block;
+
+    font-size: 20px;
+}
+
+.badge span {
+
+    font-size: 10px;
+
+    opacity: .8;
+
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   GRILLE
+   ========================================================= */
+
+.weekdays {
+
+    position: relative;
+
+    z-index: 5;
+
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    gap: 6px;
+
+    margin-bottom: 6px;
+}
+
+.weekdays div {
+
+    text-align: center;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    padding: 5px;
+
+    color: rgba(255,255,255,.85);
+}
+
+/* calendrier */
+
+.weeks {
+
+    position: relative;
+
+    z-index: 5;
+
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    grid-template-rows: repeat(8, 1fr);
+
+    gap: 6px;
+
+    height: 900px;
+}
+
+/* =========================================================
+   CELLULE SEMAINE
+   ========================================================= */
+
+.week {
+
+    min-width: 0;
+
+    position: relative;
+
+    padding: 7px;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.95),
+            rgba(235,245,238,.94)
+        );
+
+    color: var(--dark);
+
+    border: 1px solid rgba(255,255,255,.5);
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,.13);
+
+    overflow: hidden;
+
+    transition: .15s ease;
+}
+
+.week:hover {
+
+    transform: scale(1.025);
+
+    z-index: 20;
+}
+
+/* semaine */
+
+.week-number {
+
+    display: inline-block;
+
+    padding: 3px 7px;
+
+    border-radius: 12px;
+
+    background: var(--heineken-green);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    letter-spacing: .3px;
+}
+
+/* dates */
+
+.dates {
+
+    margin-top: 7px;
+
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    gap: 1px;
+}
+
+.day {
+
+    text-align: center;
+
+    font-size: 8px;
+
+    line-height: 1.2;
+}
+
+.day .letter {
+
+    display: block;
+
+    font-size: 6px;
+
+    font-weight: 900;
+
+    opacity: .5;
+}
+
+.day .number {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-weight: 800;
+}
+
+/* week-end */
+
+.day.weekend {
+
+    color: #a03a2d;
+}
+
+/* première / dernière */
+
+.special {
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #e5f5e9
+        );
+
+    border: 2px solid rgba(0,132,61,.45);
+}
+
+.special::after {
+
+    content: "2026";
+
+    position: absolute;
+
+    right: 5px;
+    bottom: 3px;
+
+    font-size: 6px;
+
+    opacity: .3;
+
+    font-weight: 900;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+
+    position: absolute;
+
+    z-index: 5;
+
+    left: 42px;
+    right: 42px;
+    bottom: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 9px;
+
+    opacity: .75;
+
+    letter-spacing: .5px;
+}
+
+.footer .beer {
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1250px) {
+
+    #calendar {
+
+        width: 95vw;
+        height: 95vw;
+
+        padding: 3.3vw;
+    }
+
+    .title .year {
+        font-size: 6vw;
+    }
+
+    .header {
+        grid-template-columns: 15% 1fr 15%;
+    }
+
+    .logo {
+        width: 100%;
+    }
+
+    .logo-name {
+        font-size: 2.2vw;
+    }
+
+    .weeks {
+        height: 72vw;
+    }
 }
 
 </style>
 </head>
+
 <body>
 
-<div id="calendar">
+<div class="controls">
 
-logo.png
+    <button onclick="downloadPNG()">
+        📥 Télécharger le calendrier PNG
+    </button>
 
-<h1>2026</h1>
-
-<div class="barley b1">🌾</div>
-<div class="barley b2">🌾</div>
-
-<div class="grid" id="weeks"></div>
+    <button onclick="window.print()">
+        🖨️ Imprimer
+    </button>
 
 </div>
 
-<button onclick="exportPNG()">Exporter PNG</button>
+
+<!-- ======================================================
+     CALENDRIER
+     ====================================================== -->
+
+<div id="calendar">
+
+    <!-- Décoration orge gauche -->
+    <div class="barley left">
+
+        <div class="stem"></div>
+
+        <div class="grain g1"></div>
+        <div class="grain g2"></div>
+        <div class="grain g3"></div>
+        <div class="grain g4"></div>
+        <div class="grain g5"></div>
+        <div class="grain g6"></div>
+        <div class="grain g7"></div>
+        <div class="grain g8"></div>
+        <div class="grain g9"></div>
+        <div class="grain g10"></div>
+        <div class="grain g11"></div>
+        <div class="grain g12"></div>
+
+    </div>
+
+
+    <!-- Décoration orge droite -->
+    <div class="barley right">
+
+        <div class="stem"></div>
+
+        <div class="grain g1"></div>
+        <div class="grain g2"></div>
+        <div class="grain g3"></div>
+        <div class="grain g4"></div>
+        <div class="grain g5"></div>
+        <div class="grain g6"></div>
+        <div class="grain g7"></div>
+        <div class="grain g8"></div>
+        <div class="grain g9"></div>
+        <div class="grain g10"></div>
+        <div class="grain g11"></div>
+        <div class="grain g12"></div>
+
+    </div>
+
+
+    <!-- Houblon haut -->
+    <div class="hops top-left">
+
+        <div class="hop"></div>
+        <div class="hop"></div>
+        <div class="hop"></div>
+
+    </div>
+
+
+    <!-- Houblon bas -->
+    <div class="hops bottom-right">
+
+        <div class="hop"></div>
+        <div class="hop"></div>
+        <div class="hop"></div>
+
+    </div>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <!-- Logo Heineken stylisé -->
+        <div class="logo">
+
+            <div class="logo-star">★</div>
+
+            <div class="logo-name">
+                HEINEKEN
+            </div>
+
+        </div>
+
+
+        <!-- Titre -->
+
+        <div class="title">
+
+            <div class="year">
+                2026
+            </div>
+
+            <div class="subtitle">
+                Calendrier annuel · Semaines ISO
+            </div>
+
+            <div class="line"></div>
+
+        </div>
+
+
+        <div class="badge">
+
+            <strong>S1 → S53</strong>
+
+            <span>
+                29 DÉC. 2025<br>
+                → 03 JAN. 2027
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- JOURS -->
+
+    <div class="weekdays">
+
+        <div>LUN</div>
+        <div>MAR</div>
+        <div>MER</div>
+        <div>JEU</div>
+        <div>VEN</div>
+        <div>SAM</div>
+        <div>DIM</div>
+
+    </div>
+
+
+    <!-- SEMAINES -->
+
+    <div class="weeks" id="weeks"></div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <div class="beer">
+            🍺 BRASSERIE · CONDITIONNEMENT · AMÉLIORATION CONTINUE
+        </div>
+
+        <div>
+            S1 — 29/12/2025 → S53 — 03/01/2027
+        </div>
+
+    </div>
+
+</div>
+
 
 <script>
 
-function formatDate(d){
-    return d.toLocaleDateString("fr-FR",{
-        day:"2-digit",
-        month:"2-digit"
-    });
+/* =========================================================
+   CALCUL DES SEMAINES ISO
+   ========================================================= */
+
+/*
+    Pour 2026 :
+    
+    S1  = 29/12/2025 → 04/01/2026
+    ...
+    S52 = 21/12/2026 → 27/12/2026
+    S53 = 28/12/2026 → 03/01/2027
+*/
+
+function getISOWeek(date) {
+
+    const d = new Date(
+        Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        )
+    );
+
+    const day = d.getUTCDay() || 7;
+
+    d.setUTCDate(
+        d.getUTCDate() + 4 - day
+    );
+
+    const yearStart = new Date(
+        Date.UTC(
+            d.getUTCFullYear(),
+            0,
+            1
+        )
+    );
+
+    return Math.ceil(
+        (
+            (
+                (d - yearStart) / 86400000
+            ) + 1
+        ) / 7
+    );
 }
 
-const container=document.getElementById("weeks");
 
-let start=new Date("2025-12-29");
+/* =========================================================
+   DATE DU LUNDI D'UNE SEMAINE ISO
+   ========================================================= */
 
-for(let i=1;i<=53;i++){
+function getMondayOfISOWeek(
+    week,
+    year
+) {
 
-    let end=new Date(start);
-    end.setDate(end.getDate()+6);
+    const simple = new Date(
+        Date.UTC(year, 0, 4)
+    );
 
-    container.innerHTML += `
-        <div class="week">
-            <div class="header">
-                S${String(i).padStart(2,'0')}
-            </div>
+    const day =
+        simple.getUTCDay() || 7;
 
-            <div class="content">
-                <div class="start">${formatDate(start)}</div>
-                <div>au</div>
-                <div class="end">${formatDate(end)}</div>
-            </div>
-        </div>
-    `;
+    simple.setUTCDate(
+        simple.getUTCDate() -
+        day +
+        1 +
+        (week - 1) * 7
+    );
 
-    start.setDate(start.getDate()+7);
+    return simple;
 }
 
-function exportPNG(){
 
-    html2canvas(document.querySelector("#calendar"),{
-        scale:2
-    }).then(canvas=>{
+/* =========================================================
+   FORMAT DATE
+   ========================================================= */
 
-        const a=document.createElement("a");
-        a.href=canvas.toDataURL("image/png");
-        a.download="Calendrier_Semaines_2026.png";
-        a.click();
+function formatDate(date) {
 
-    });
+    const day =
+        String(date.getUTCDate())
+        .padStart(2, "0");
+
+    const month =
+        String(date.getUTCMonth() + 1)
+        .padStart(2, "0");
+
+    return `${day}/${month}`;
+}
+
+
+/* =========================================================
+   CREATION DES 53 SEMAINES
+   ========================================================= */
+
+const container =
+    document.getElementById("weeks");
+
+const days =
+    [
+        "L",
+        "M",
+        "M",
+        "J",
+        "V",
+        "S",
+        "D"
+    ];
+
+
+/*
+
+    2026 possède 53 semaines ISO.
+
+*/
+
+for(let weekNumber = 1; weekNumber <= 53; weekNumber++) {
+
+    const monday =
+        getMondayOfISOWeek(
+            weekNumber,
+            2026
+        );
+
+    const sunday =
+        new Date(monday);
+
+    sunday.setUTCDate(
+        monday.getUTCDate() + 6
+    );
+
+
+    /* cellule */
+
+    const week =
+        document.createElement("div");
+
+    week.className = "week";
+
+
+    /*
+        Mise en évidence de la première
+        et dernière semaine.
+    */
+
+    if(
+        weekNumber === 1 ||
+        weekNumber === 53
+    ) {
+
+        week.classList.add("special");
+
+    }
+
+
+    /* numéro */
+
+    const number =
+        document.createElement("div");
+
+    number.className =
+        "week-number";
+
+    number.textContent =
+        `S${weekNumber}`;
+
+
+    week.appendChild(number);
+
+
+    /* dates */
+
+    const dates =
+        document.createElement("div");
+
+    dates.className = "dates";
+
+
+    for(let i = 0; i < 7; i++) {
+
+        const current =
+            new Date(monday);
+
+        current.setUTCDate(
+            monday.getUTCDate() + i
+        );
+
+
+        const day =
+            document.createElement("div");
+
+        day.className = "day";
+
+
+        /*
+            Samedi / dimanche
+        */
+
+        if(i >= 5) {
+
+            day.classList.add(
+                "weekend"
+            );
+
+        }
+
+
+        const letter =
+            document.createElement("span");
+
+        letter.className =
+            "letter";
+
+        letter.textContent =
+            days[i];
+
+
+        const numberDay =
+            document.createElement("span");
+
+        numberDay.className =
+            "number";
+
+        numberDay.textContent =
+            formatDate(current);
+
+
+        day.appendChild(letter);
+
+        day.appendChild(numberDay);
+
+        dates.appendChild(day);
+
+    }
+
+
+    week.appendChild(dates);
+
+    container.appendChild(week);
+
+}
+
+
+/* =========================================================
+   EXPORT PNG
+   ========================================================= */
+
+async function downloadPNG() {
+
+    const calendar =
+        document.getElementById(
+            "calendar"
+        );
+
+
+    /*
+        On masque les boutons car ils
+        ne doivent pas apparaître dans le PNG.
+    */
+
+    const controls =
+        document.querySelector(
+            ".controls"
+        );
+
+    controls.style.display = "none";
+
+
+    /*
+        html2canvas transforme le calendrier
+        en image haute résolution.
+    */
+
+    const canvas =
+        await html2canvas(
+            calendar,
+            {
+
+                width: 1200,
+
+                height: 1200,
+
+                scale: 2,
+
+                backgroundColor:
+                    "#00652f",
+
+                useCORS: true,
+
+                logging: false
+
+            }
+        );
+
+
+    /*
+        Téléchargement
+    */
+
+    const link =
+        document.createElement("a");
+
+    link.download =
+        "Calendrier_Heineken_2026_S1-S53.png";
+
+    link.href =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+    link.click();
+
+
+    /*
+        On réaffiche les boutons.
+    */
+
+    controls.style.display = "flex";
 
 }
 
