@@ -2,193 +2,174 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calendrier Semaines 2026</title>
 
 https://html2canvas.hertzen.com/dist/html2canvas.min.jsscript>
 
 <style>
+
 body{
     margin:0;
-    padding:20px;
-    background:#0a5f2c;
-    font-family:Arial, Helvetica, sans-serif;
+    background:#0D6B36;
     display:flex;
-    flex-direction:column;
-    align-items:center;
+    justify-content:center;
+    padding:20px;
+    font-family:Arial,sans-serif;
 }
 
 #calendar{
-    width:2048px;
-    height:2048px;
+    width:1800px;
+    height:1800px;
+    background:#0D6B36;
     position:relative;
-    background:
-        radial-gradient(circle at 20% 15%, rgba(255,215,0,.15), transparent 25%),
-        radial-gradient(circle at 80% 85%, rgba(255,215,0,.12), transparent 25%),
-        linear-gradient(135deg,#0d6a34,#147a3f,#0d6a34);
-    overflow:hidden;
+    padding:40px;
+    box-sizing:border-box;
+}
+
+h1{
+    text-align:center;
     color:white;
+    font-size:72px;
+    margin:0;
 }
 
 .logo{
     position:absolute;
-    top:25px;
-    left:25px;
-    width:180px;
-    height:180px;
-    object-fit:contain;
-    background:white;
-    border-radius:12px;
-    padding:10px;
-}
-
-.title{
-    text-align:center;
-    font-size:60px;
-    font-weight:bold;
-    margin-top:30px;
-    letter-spacing:2px;
-}
-
-.subtitle{
-    text-align:center;
-    font-size:24px;
-    opacity:0.9;
+    top:30px;
+    left:40px;
+    height:80px;
 }
 
 .grid{
-    width:95%;
-    margin:40px auto;
+    margin-top:40px;
+
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:10px;
+    gap:14px;
 }
 
 .week{
-    background:rgba(255,255,255,0.12);
-    border:1px solid rgba(255,255,255,0.25);
-    border-radius:8px;
-    padding:8px;
-    backdrop-filter:blur(2px);
+    background:white;
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:0 2px 4px rgba(0,0,0,.2);
 }
 
-.week-title{
-    color:#ffd700;
+.header{
+    background:#1B8E4B;
+    color:white;
+    text-align:center;
     font-weight:bold;
+    padding:6px;
+}
+
+.content{
+    text-align:center;
+    padding:10px;
+}
+
+.start{
     font-size:18px;
 }
 
-.week-date{
-    font-size:15px;
+.end{
+    font-size:18px;
+    color:#666;
 }
 
-/* Décors orge/malt */
 .barley{
     position:absolute;
-    opacity:0.15;
-    color:#ffd700;
-    font-size:180px;
-    font-weight:bold;
-    user-select:none;
+    font-size:200px;
+    opacity:.05;
+    color:#FFD84D;
 }
 
-.b1{top:100px;right:80px;transform:rotate(15deg);}
-.b2{bottom:150px;left:60px;transform:rotate(-15deg);}
-.b3{top:900px;right:100px;transform:rotate(-8deg);}
-.b4{bottom:350px;right:350px;transform:rotate(20deg);}
+.b1{
+    top:100px;
+    right:50px;
+}
 
-.controls{
-    margin-top:20px;
+.b2{
+    bottom:100px;
+    left:50px;
 }
 
 button{
-    padding:12px 25px;
-    font-size:16px;
-    cursor:pointer;
-    border:none;
-    border-radius:8px;
-    background:#ffd700;
-    font-weight:bold;
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    padding:12px 20px;
 }
+
 </style>
 </head>
 <body>
 
 <div id="calendar">
 
-    <!-- Remplacer par votre fichier -->
-    logo-heineken.png
+logo.png
 
-    <div class="barley b1">🌾</div>
-    <div class="barley b2">🌾</div>
-    <div class="barley b3">🌾</div>
-    <div class="barley b4">🌾</div>
+<h1>2026</h1>
 
-    <div class="title">CALENDRIER 2026</div>
-    <div class="subtitle">Semaines S1 à S53 (jusqu'au 03/01/2027)</div>
+<div class="barley b1">🌾</div>
+<div class="barley b2">🌾</div>
 
-    <div class="grid" id="weeksGrid"></div>
+<div class="grid" id="weeks"></div>
 
 </div>
 
-<div class="controls">
-    <button onclick="downloadPNG()">
-        Télécharger PNG
-    </button>
-</div>
+<button onclick="exportPNG()">Exporter PNG</button>
 
 <script>
 
-const grid = document.getElementById("weeksGrid");
-
-function formatDate(date){
-    return date.toLocaleDateString('fr-FR',{
-        day:'2-digit',
-        month:'2-digit'
+function formatDate(d){
+    return d.toLocaleDateString("fr-FR",{
+        day:"2-digit",
+        month:"2-digit"
     });
 }
 
-// Début S1 2026 : lundi 29/12/2025
-let current = new Date('2025-12-29');
+const container=document.getElementById("weeks");
 
-for(let week=1; week<=53; week++){
+let start=new Date("2025-12-29");
 
-    let start = new Date(current);
+for(let i=1;i<=53;i++){
 
-    let end = new Date(current);
+    let end=new Date(start);
     end.setDate(end.getDate()+6);
 
-    const div = document.createElement("div");
-    div.className = "week";
+    container.innerHTML += `
+        <div class="week">
+            <div class="header">
+                S${String(i).padStart(2,'0')}
+            </div>
 
-    div.innerHTML = `
-        <div class="week-title">S${week}</div>
-        <div class="week-date">
-            ${formatDate(start)} → ${formatDate(end)}
+            <div class="content">
+                <div class="start">${formatDate(start)}</div>
+                <div>au</div>
+                <div class="end">${formatDate(end)}</div>
+            </div>
         </div>
     `;
 
-    grid.appendChild(div);
-
-    current.setDate(current.getDate()+7);
+    start.setDate(start.getDate()+7);
 }
 
-async function downloadPNG(){
+function exportPNG(){
 
-    const canvas = await html2canvas(
-        document.getElementById("calendar"),
-        {
-            scale:1,
-            useCORS:true,
-            backgroundColor:null
-        }
-    );
+    html2canvas(document.querySelector("#calendar"),{
+        scale:2
+    }).then(canvas=>{
 
-    const link = document.createElement("a");
-    link.download = "Calendrier_2026_Semaines.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+        const a=document.createElement("a");
+        a.href=canvas.toDataURL("image/png");
+        a.download="Calendrier_Semaines_2026.png";
+        a.click();
+
+    });
+
 }
+
 </script>
 
 </body>
