@@ -4,29 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calendrier Semaines 2026 — Heineken</title>
+<title>Calendrier Heineken — Semaines 2026</title>
 
-<!-- Librairie permettant de transformer le calendrier HTML en PNG -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 
+/* =========================================================
+   VARIABLES
+========================================================= */
+
 :root {
-    --heineken-dark: #00582b;
-    --heineken-green: #00843d;
-    --heineken-light: #19a957;
-    --heineken-white: #ffffff;
-    --gold: #d9b44a;
-    --cream: #f4edcf;
-    --dark: #073b24;
+    --green-dark: #004d27;
+    --green: #00843d;
+    --green-light: #18a957;
+
+    --green-soft: #eaf5ed;
+
+    --red: #e3262e;
+
+    --gold: #d7b44a;
+    --gold-light: #f0d477;
+
+    --text: #123524;
+    --muted: #87958d;
+
+    --week-bg: #edf5ef;
+    --week-border: #c8ddd0;
 }
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
+    padding: 0;
+}
+
+body {
+
     min-height: 100vh;
 
     display: flex;
@@ -34,92 +57,118 @@ body {
     align-items: center;
 
     background:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,.08), transparent 18%),
-        radial-gradient(circle at 90% 80%, rgba(255,255,255,.07), transparent 20%),
-        #063d24;
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(0,132,61,.20),
+            transparent 30%
+        ),
+        #082d1c;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
 }
 
+
 /* =========================================================
-   BOUTONS
-   ========================================================= */
+   BARRE DE CONTRÔLE
+========================================================= */
 
 .controls {
-    margin: 18px;
+
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
+
+    margin: 20px 0;
+
     justify-content: center;
 }
 
-button {
+.controls button {
+
     border: none;
-    padding: 11px 20px;
-    border-radius: 25px;
+
+    padding: 11px 18px;
+
+    border-radius: 999px;
 
     background: white;
-    color: var(--heineken-dark);
+
+    color: var(--green-dark);
 
     font-weight: 800;
-    font-size: 14px;
 
     cursor: pointer;
 
-    box-shadow: 0 5px 15px rgba(0,0,0,.25);
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.20);
 
-    transition: .2s ease;
+    transition:
+        transform .2s,
+        box-shadow .2s;
 }
 
-button:hover {
+.controls button:hover {
+
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,.3);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.28);
 }
 
-button:active {
-    transform: scale(.97);
-}
 
 /* =========================================================
-   CALENDRIER PRINCIPAL
-   ========================================================= */
+   FORMAT FINAL
+   15 CM × 15 CM MAXIMUM
+========================================================= */
 
 #calendar {
 
-    width: 1200px;
-    height: 1200px;
+    width: 15cm;
+    height: 15cm;
 
     position: relative;
 
     overflow: hidden;
 
-    padding: 42px;
+    padding: 0.42cm;
 
-    color: white;
+    border-radius: 0.28cm;
 
     background:
-        radial-gradient(circle at 20% 15%,
-            rgba(255,255,255,.09),
-            transparent 20%),
 
-        radial-gradient(circle at 80% 90%,
-            rgba(255,255,255,.07),
-            transparent 22%),
+        radial-gradient(
+            ellipse at 15% 15%,
+            rgba(255,255,255,.12),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            ellipse at 85% 90%,
+            rgba(255,255,255,.10),
+            transparent 25%
+        ),
 
         linear-gradient(
             135deg,
-            #004f27,
-            #00843d 50%,
-            #00652f
+            #004d27,
+            #007b39 48%,
+            #005c2d
         );
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.45);
+        0 20px 60px rgba(0,0,0,.45);
 
-    border-radius: 18px;
 }
 
-/* texture légère */
+
+/* =========================================================
+   TEXTURE
+========================================================= */
 
 #calendar::before {
 
@@ -129,155 +178,397 @@ button:active {
 
     inset: 0;
 
-    opacity: .08;
+    opacity: .07;
 
     background-image:
-        radial-gradient(#fff 1px, transparent 1px);
 
-    background-size: 16px 16px;
+        radial-gradient(
+            rgba(255,255,255,.8) .7px,
+            transparent .7px
+        );
+
+    background-size: 7px 7px;
 
     pointer-events: none;
 }
 
+
 /* =========================================================
-   DECORATIONS ORGE
-   ========================================================= */
+   CADRE INTERNE
+========================================================= */
+
+.inner-frame {
+
+    position: absolute;
+
+    inset: 0.22cm;
+
+    border:
+        1px solid rgba(255,255,255,.28);
+
+    border-radius: 0.20cm;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   EN-TÊTE
+========================================================= */
+
+.header {
+
+    position: relative;
+
+    z-index: 10;
+
+    height: 1.42cm;
+
+    display: grid;
+
+    grid-template-columns:
+        2.4cm
+        1fr
+        2.4cm;
+
+    align-items: center;
+
+    gap: .12cm;
+}
+
+
+/* =========================================================
+   LOGO HEINEKEN
+========================================================= */
+
+.heineken-logo {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    line-height: 1;
+}
+
+
+/* étoile */
+
+.star {
+
+    position: relative;
+
+    width: .48cm;
+    height: .48cm;
+
+    margin-bottom: .03cm;
+
+    color: white;
+
+    font-size: .40cm;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* nom */
+
+.brand {
+
+    font-family:
+        Arial Black,
+        Arial,
+        sans-serif;
+
+    font-size: .31cm;
+
+    font-weight: 900;
+
+    letter-spacing: .025cm;
+}
+
+
+/* =========================================================
+   TITRE
+========================================================= */
+
+.title {
+
+    text-align: center;
+
+    color: white;
+}
+
+.title .year {
+
+    font-family:
+        Arial Black,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: .78cm;
+
+    line-height: .8;
+
+    letter-spacing: -.04cm;
+
+    font-weight: 950;
+}
+
+.title .subtitle {
+
+    margin-top: .10cm;
+
+    font-size: .19cm;
+
+    font-weight: 700;
+
+    letter-spacing: .035cm;
+
+    text-transform: uppercase;
+
+    opacity: .88;
+}
+
+.title .gold-line {
+
+    width: 1.25cm;
+
+    height: .035cm;
+
+    margin: .08cm auto 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-light),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   BADGE S1 → S53
+========================================================= */
+
+.year-badge {
+
+    justify-self: end;
+
+    width: 2.05cm;
+
+    padding: .12cm .08cm;
+
+    border-radius: .13cm;
+
+    border:
+        1px solid rgba(255,255,255,.28);
+
+    background:
+        rgba(0,0,0,.12);
+
+    text-align: center;
+
+    color: white;
+}
+
+.year-badge strong {
+
+    display: block;
+
+    font-size: .27cm;
+
+    font-weight: 900;
+}
+
+.year-badge small {
+
+    display: block;
+
+    margin-top: .035cm;
+
+    font-size: .13cm;
+
+    line-height: 1.25;
+
+    opacity: .82;
+}
+
+
+/* =========================================================
+   DÉCORATIONS — ORGE
+========================================================= */
 
 .barley {
 
     position: absolute;
 
-    width: 170px;
-    height: 350px;
+    width: 1.9cm;
+    height: 4.3cm;
 
-    opacity: .25;
+    opacity: .20;
 
     pointer-events: none;
+
+    z-index: 1;
 }
 
 .barley.left {
-    left: -25px;
-    bottom: -30px;
-    transform: rotate(-17deg);
+
+    left: -.25cm;
+    bottom: -.25cm;
+
+    transform: rotate(-18deg);
 }
 
 .barley.right {
-    right: -25px;
-    top: 120px;
-    transform: rotate(18deg);
+
+    right: -.28cm;
+    top: 1.5cm;
+
+    transform: rotate(17deg);
 }
+
 
 /* tige */
 
-.barley .stem {
+.barley-stem {
 
     position: absolute;
 
-    width: 7px;
-    height: 300px;
+    width: .065cm;
+    height: 3.7cm;
 
-    background: #d8b84d;
+    left: .95cm;
+    top: .30cm;
 
-    border-radius: 10px;
+    border-radius: 999px;
 
-    left: 80px;
-    top: 25px;
-
-    transform: rotate(-5deg);
+    background:
+        linear-gradient(
+            180deg,
+            #f0d477,
+            #b99532
+        );
 }
+
 
 /* grains */
 
-.grain {
+.barley-grain {
 
     position: absolute;
 
-    width: 25px;
-    height: 12px;
+    width: .30cm;
+    height: .14cm;
 
-    background: #e4c65d;
+    border-radius:
+        100% 20% 100% 20%;
 
-    border-radius: 100% 20% 100% 20%;
-
-    transform: rotate(-30deg);
+    background:
+        linear-gradient(
+            135deg,
+            #f1d77a,
+            #bd9a35
+        );
 }
 
-.g1 { left: 60px; top: 50px; }
-.g2 { left: 92px; top: 65px; transform:rotate(30deg); }
-.g3 { left: 54px; top: 82px; }
-.g4 { left: 96px; top: 98px; transform:rotate(30deg); }
-.g5 { left: 48px; top: 116px; }
-.g6 { left: 100px; top: 132px; transform:rotate(30deg); }
-.g7 { left: 43px; top: 150px; }
-.g8 { left: 102px; top: 166px; transform:rotate(30deg); }
-.g9 { left: 40px; top: 185px; }
-.g10 { left: 100px; top: 202px; transform:rotate(30deg); }
-.g11 { left: 38px; top: 220px; }
-.g12 { left: 95px; top: 238px; transform:rotate(30deg); }
+.g01 { left:.68cm; top:.50cm; transform:rotate(-28deg); }
+.g02 { left:1.05cm; top:.65cm; transform:rotate(28deg); }
+.g03 { left:.62cm; top:.88cm; transform:rotate(-28deg); }
+.g04 { left:1.10cm; top:1.03cm; transform:rotate(28deg); }
+.g05 { left:.56cm; top:1.26cm; transform:rotate(-28deg); }
+.g06 { left:1.13cm; top:1.42cm; transform:rotate(28deg); }
+.g07 { left:.51cm; top:1.65cm; transform:rotate(-28deg); }
+.g08 { left:1.15cm; top:1.82cm; transform:rotate(28deg); }
+.g09 { left:.47cm; top:2.04cm; transform:rotate(-28deg); }
+.g10 { left:1.17cm; top:2.20cm; transform:rotate(28deg); }
+.g11 { left:.45cm; top:2.43cm; transform:rotate(-28deg); }
+.g12 { left:1.16cm; top:2.60cm; transform:rotate(28deg); }
+.g13 { left:.48cm; top:2.82cm; transform:rotate(-28deg); }
+.g14 { left:1.12cm; top:3.00cm; transform:rotate(28deg); }
+
 
 /* =========================================================
    HOUBLON
-   ========================================================= */
+========================================================= */
 
 .hops {
 
     position: absolute;
 
-    width: 160px;
-    height: 160px;
+    width: 1.8cm;
+    height: 1.8cm;
 
-    opacity: .14;
+    opacity: .12;
 
-    pointer-events: none;
+    z-index: 1;
 }
 
-.hops.top-left {
-    left: 20px;
-    top: 20px;
+.hops.top-right {
+
+    right: .35cm;
+    top: .20cm;
 }
 
-.hops.bottom-right {
-    right: 15px;
-    bottom: 10px;
+.hops.bottom-left {
+
+    left: .20cm;
+    bottom: .10cm;
 }
 
 .hop {
 
     position: absolute;
 
-    width: 45px;
-    height: 45px;
-
-    background: #b9d84d;
+    width: .55cm;
+    height: .55cm;
 
     border-radius: 50%;
 
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #d4ed70,
+            #76aa32 75%
+        );
+
     box-shadow:
-        0 0 0 7px rgba(185,216,77,.25),
-        12px 8px 0 -4px #8ab73b,
-        -10px 12px 0 -5px #9ac543;
+        .12cm .06cm 0 -.025cm #65992c,
+        -.10cm .12cm 0 -.03cm #82b73a;
 }
 
 .hop:nth-child(1) {
-    left: 50px;
-    top: 30px;
+    left:.55cm;
+    top:.25cm;
 }
 
 .hop:nth-child(2) {
-    left: 25px;
-    top: 70px;
+    left:.25cm;
+    top:.80cm;
 }
 
 .hop:nth-child(3) {
-    left: 80px;
-    top: 75px;
+    left:.88cm;
+    top:.88cm;
 }
 
-/* =========================================================
-   HEADER
-   ========================================================= */
 
-.header {
+/* =========================================================
+   CONTENEUR DES 12 MOIS
+========================================================= */
+
+.months {
 
     position: relative;
 
@@ -285,411 +576,418 @@ button:active {
 
     display: grid;
 
-    grid-template-columns: 190px 1fr 190px;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-    align-items: center;
+    grid-template-rows:
+        repeat(4, 1fr);
 
-    gap: 20px;
+    gap: .13cm;
 
-    margin-bottom: 18px;
+    height: calc(
+        15cm - 2.30cm
+    );
 }
 
-/* Logo */
-
-.logo {
-
-    width: 180px;
-    height: 100px;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    color: white;
-
-    font-weight: 900;
-
-    letter-spacing: 2px;
-}
-
-.logo-star {
-
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    color: white;
-
-    font-size: 37px;
-
-    line-height: 1;
-}
-
-.logo-name {
-
-    font-size: 27px;
-
-    font-family:
-        Arial Black,
-        Arial,
-        sans-serif;
-}
-
-/* titre */
-
-.title {
-
-    text-align: center;
-}
-
-.title .year {
-
-    font-size: 72px;
-
-    line-height: .85;
-
-    font-weight: 900;
-
-    letter-spacing: -4px;
-}
-
-.title .subtitle {
-
-    margin-top: 8px;
-
-    font-size: 14px;
-
-    font-weight: 800;
-
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
-}
-
-.title .line {
-
-    width: 130px;
-    height: 3px;
-
-    margin: 12px auto 0;
-
-    background: var(--gold);
-}
-
-/* badge */
-
-.badge {
-
-    justify-self: end;
-
-    padding: 10px 15px;
-
-    border: 1px solid rgba(255,255,255,.35);
-
-    border-radius: 12px;
-
-    background: rgba(0,0,0,.12);
-
-    text-align: center;
-}
-
-.badge strong {
-
-    display: block;
-
-    font-size: 20px;
-}
-
-.badge span {
-
-    font-size: 10px;
-
-    opacity: .8;
-
-    letter-spacing: 1px;
-}
 
 /* =========================================================
-   GRILLE
-   ========================================================= */
+   CARTE MOIS
+========================================================= */
 
-.weekdays {
-
-    position: relative;
-
-    z-index: 5;
-
-    display: grid;
-
-    grid-template-columns: repeat(7, 1fr);
-
-    gap: 6px;
-
-    margin-bottom: 6px;
-}
-
-.weekdays div {
-
-    text-align: center;
-
-    font-size: 10px;
-
-    font-weight: 900;
-
-    letter-spacing: 1px;
-
-    padding: 5px;
-
-    color: rgba(255,255,255,.85);
-}
-
-/* calendrier */
-
-.weeks {
-
-    position: relative;
-
-    z-index: 5;
-
-    display: grid;
-
-    grid-template-columns: repeat(7, 1fr);
-
-    grid-template-rows: repeat(8, 1fr);
-
-    gap: 6px;
-
-    height: 900px;
-}
-
-/* =========================================================
-   CELLULE SEMAINE
-   ========================================================= */
-
-.week {
+.month {
 
     min-width: 0;
 
-    position: relative;
+    min-height: 0;
 
-    padding: 7px;
+    padding: .10cm;
 
-    border-radius: 8px;
+    border-radius: .11cm;
 
     background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.95),
-            rgba(235,245,238,.94)
-        );
-
-    color: var(--dark);
-
-    border: 1px solid rgba(255,255,255,.5);
+        rgba(255,255,255,.96);
 
     box-shadow:
-        0 2px 5px rgba(0,0,0,.13);
+        0 .035cm .12cm rgba(0,0,0,.18);
 
     overflow: hidden;
-
-    transition: .15s ease;
 }
 
-.week:hover {
 
-    transform: scale(1.025);
+/* =========================================================
+   TITRE DU MOIS
+========================================================= */
 
-    z-index: 20;
+.month-title {
+
+    height: .31cm;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 .05cm;
+
+    color: var(--green-dark);
+
+    font-weight: 950;
+
+    font-size: .22cm;
+
+    text-transform: uppercase;
+
+    letter-spacing: .015cm;
 }
 
-/* semaine */
+.month-title .month-name {
 
-.week-number {
-
-    display: inline-block;
-
-    padding: 3px 7px;
-
-    border-radius: 12px;
-
-    background: var(--heineken-green);
-
-    color: white;
-
-    font-size: 12px;
-
-    font-weight: 900;
-
-    letter-spacing: .3px;
+    font-weight: 950;
 }
 
-/* dates */
+.month-title .month-year {
 
-.dates {
+    font-size: .13cm;
 
-    margin-top: 7px;
-
-    display: grid;
-
-    grid-template-columns: repeat(7, 1fr);
-
-    gap: 1px;
-}
-
-.day {
-
-    text-align: center;
-
-    font-size: 8px;
-
-    line-height: 1.2;
-}
-
-.day .letter {
-
-    display: block;
-
-    font-size: 6px;
-
-    font-weight: 900;
-
-    opacity: .5;
-}
-
-.day .number {
-
-    display: block;
-
-    margin-top: 2px;
+    color: #91a097;
 
     font-weight: 800;
 }
 
-/* week-end */
 
-.day.weekend {
+/* =========================================================
+   EN-TÊTE SEMAINE + JOURS
+========================================================= */
 
-    color: #a03a2d;
+.calendar-head {
+
+    display: grid;
+
+    /*
+       première colonne = semaine
+       puis 7 jours
+    */
+
+    grid-template-columns:
+        .37cm repeat(7, 1fr);
+
+    align-items: center;
+
+    height: .27cm;
+
+    border-bottom:
+        .018cm solid #d9e6dd;
 }
 
-/* première / dernière */
 
-.special {
+/* cellule SEM */
+
+.week-head {
+
+    font-size: .10cm;
+
+    font-weight: 950;
+
+    text-align: center;
+
+    color: var(--green);
+
+    letter-spacing: -.01cm;
+}
+
+
+/* jours */
+
+.day-head {
+
+    text-align: center;
+
+    font-size: .115cm;
+
+    font-weight: 950;
+
+    color: #53665b;
+}
+
+
+/* =========================================================
+   LIGNES DU CALENDRIER
+========================================================= */
+
+.calendar-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        .37cm repeat(7, 1fr);
+
+    grid-template-rows:
+        repeat(6, 1fr);
+
+    height: calc(
+        100% - .58cm
+    );
+}
+
+
+/* =========================================================
+   NUMÉRO SEMAINE
+========================================================= */
+
+.week-number {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: .018cm;
+
+    border-radius: .035cm;
 
     background:
-        linear-gradient(
-            145deg,
-            #fff,
-            #e5f5e9
-        );
+        var(--week-bg);
 
-    border: 2px solid rgba(0,132,61,.45);
+    color:
+        var(--green-dark);
+
+    font-size: .105cm;
+
+    font-weight: 950;
+
+    border-right:
+        .012cm solid var(--week-border);
 }
 
-.special::after {
 
-    content: "2026";
+/* =========================================================
+   CELLULE JOUR
+========================================================= */
 
-    position: absolute;
+.day-cell {
 
-    right: 5px;
-    bottom: 3px;
+    position: relative;
 
-    font-size: 6px;
+    display: flex;
 
-    opacity: .3;
+    align-items: center;
 
-    font-weight: 900;
+    justify-content: center;
+
+    margin: .018cm;
+
+    border-radius: .035cm;
+
+    font-size: .145cm;
+
+    font-weight: 750;
+
+    color: #172a20;
+
+    background: #fff;
+
+    transition:
+        background .15s;
 }
+
+
+/* lignes */
+
+.day-cell:not(:nth-child(8n)) {
+
+    border-right:
+        .008cm solid #edf1ee;
+}
+
+
+/* week-end */
+
+.day-cell.weekend {
+
+    color: #67736d;
+
+    background:
+        #f7f9f7;
+}
+
+
+/* hors mois */
+
+.day-cell.other-month {
+
+    color: #b7c0bb;
+
+    background:
+        #fafbfa;
+
+    font-weight: 600;
+}
+
+
+/* dimanche */
+
+.day-cell.sunday {
+
+    color: #a56b65;
+}
+
+
+/* =========================================================
+   INDICATEUR AUJOURD'HUI
+========================================================= */
+
+.day-cell.today {
+
+    color: white;
+
+    background:
+        var(--green);
+
+    font-weight: 950;
+
+    box-shadow:
+        inset 0 0 0 .02cm rgba(255,255,255,.3);
+}
+
+
+/* =========================================================
+   SEMAINE ACTIVE
+========================================================= */
+
+.day-cell.current-week {
+
+    box-shadow:
+        inset 0 -.025cm 0 var(--gold);
+}
+
 
 /* =========================================================
    FOOTER
-   ========================================================= */
+========================================================= */
 
 .footer {
 
     position: absolute;
 
-    z-index: 5;
+    z-index: 10;
 
-    left: 42px;
-    right: 42px;
-    bottom: 18px;
+    left: .45cm;
+    right: .45cm;
+
+    bottom: .17cm;
+
+    height: .25cm;
 
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
 
-    font-size: 9px;
+    justify-content: space-between;
 
-    opacity: .75;
+    color: rgba(255,255,255,.78);
 
-    letter-spacing: .5px;
+    font-size: .105cm;
+
+    font-weight: 700;
+
+    letter-spacing: .01cm;
 }
 
-.footer .beer {
+.footer strong {
 
-    font-weight: 900;
-
-    letter-spacing: 1px;
+    color: white;
 }
+
 
 /* =========================================================
-   RESPONSIVE
-   ========================================================= */
+   IMPRESSION
+========================================================= */
 
-@media(max-width:1250px) {
+@media print {
+
+    body {
+
+        background: white;
+
+    }
+
+    .controls {
+
+        display: none !important;
+
+    }
+
+    #calendar {
+
+        box-shadow: none;
+
+        margin: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   PETITS ÉCRANS
+========================================================= */
+
+@media(max-width:700px) {
 
     #calendar {
 
         width: 95vw;
         height: 95vw;
 
-        padding: 3.3vw;
-    }
+        padding: 2.7vw;
 
-    .title .year {
-        font-size: 6vw;
+        border-radius: 2vw;
     }
 
     .header {
-        grid-template-columns: 15% 1fr 15%;
+
+        height: 10vw;
+
+        grid-template-columns:
+            17% 1fr 17%;
     }
 
-    .logo {
-        width: 100%;
+    .months {
+
+        height: calc(95vw - 15vw);
+
+        gap: 1vw;
     }
 
-    .logo-name {
-        font-size: 2.2vw;
+    .month {
+
+        padding: .7vw;
+
     }
 
-    .weeks {
-        height: 72vw;
-    }
 }
 
 </style>
 </head>
 
+
 <body>
+
+
+<!-- ======================================================
+     COMMANDES
+====================================================== -->
 
 <div class="controls">
 
     <button onclick="downloadPNG()">
-        📥 Télécharger le calendrier PNG
+        ↓ Exporter PNG
     </button>
 
     <button onclick="window.print()">
-        🖨️ Imprimer
+        Imprimer
     </button>
 
 </div>
@@ -697,89 +995,97 @@ button:active {
 
 <!-- ======================================================
      CALENDRIER
-     ====================================================== -->
+====================================================== -->
 
 <div id="calendar">
 
-    <!-- Décoration orge gauche -->
+    <div class="inner-frame"></div>
+
+
+    <!-- ORGE GAUCHE -->
+
     <div class="barley left">
 
-        <div class="stem"></div>
+        <div class="barley-stem"></div>
 
-        <div class="grain g1"></div>
-        <div class="grain g2"></div>
-        <div class="grain g3"></div>
-        <div class="grain g4"></div>
-        <div class="grain g5"></div>
-        <div class="grain g6"></div>
-        <div class="grain g7"></div>
-        <div class="grain g8"></div>
-        <div class="grain g9"></div>
-        <div class="grain g10"></div>
-        <div class="grain g11"></div>
-        <div class="grain g12"></div>
+        <i class="barley-grain g01"></i>
+        <i class="barley-grain g02"></i>
+        <i class="barley-grain g03"></i>
+        <i class="barley-grain g04"></i>
+        <i class="barley-grain g05"></i>
+        <i class="barley-grain g06"></i>
+        <i class="barley-grain g07"></i>
+        <i class="barley-grain g08"></i>
+        <i class="barley-grain g09"></i>
+        <i class="barley-grain g10"></i>
+        <i class="barley-grain g11"></i>
+        <i class="barley-grain g12"></i>
+        <i class="barley-grain g13"></i>
+        <i class="barley-grain g14"></i>
 
     </div>
 
 
-    <!-- Décoration orge droite -->
+    <!-- ORGE DROITE -->
+
     <div class="barley right">
 
-        <div class="stem"></div>
+        <div class="barley-stem"></div>
 
-        <div class="grain g1"></div>
-        <div class="grain g2"></div>
-        <div class="grain g3"></div>
-        <div class="grain g4"></div>
-        <div class="grain g5"></div>
-        <div class="grain g6"></div>
-        <div class="grain g7"></div>
-        <div class="grain g8"></div>
-        <div class="grain g9"></div>
-        <div class="grain g10"></div>
-        <div class="grain g11"></div>
-        <div class="grain g12"></div>
-
-    </div>
-
-
-    <!-- Houblon haut -->
-    <div class="hops top-left">
-
-        <div class="hop"></div>
-        <div class="hop"></div>
-        <div class="hop"></div>
+        <i class="barley-grain g01"></i>
+        <i class="barley-grain g02"></i>
+        <i class="barley-grain g03"></i>
+        <i class="barley-grain g04"></i>
+        <i class="barley-grain g05"></i>
+        <i class="barley-grain g06"></i>
+        <i class="barley-grain g07"></i>
+        <i class="barley-grain g08"></i>
+        <i class="barley-grain g09"></i>
+        <i class="barley-grain g10"></i>
+        <i class="barley-grain g11"></i>
+        <i class="barley-grain g12"></i>
+        <i class="barley-grain g13"></i>
+        <i class="barley-grain g14"></i>
 
     </div>
 
 
-    <!-- Houblon bas -->
-    <div class="hops bottom-right">
+    <!-- HOUBLON -->
 
+    <div class="hops top-right">
         <div class="hop"></div>
         <div class="hop"></div>
         <div class="hop"></div>
+    </div>
 
+    <div class="hops bottom-left">
+        <div class="hop"></div>
+        <div class="hop"></div>
+        <div class="hop"></div>
     </div>
 
 
-    <!-- HEADER -->
+    <!-- ==================================================
+         HEADER
+    ================================================== -->
 
-    <div class="header">
+    <header class="header">
 
-        <!-- Logo Heineken stylisé -->
-        <div class="logo">
 
-            <div class="logo-star">★</div>
+        <!-- LOGO -->
 
-            <div class="logo-name">
+        <div class="heineken-logo">
+
+            <div class="star">★</div>
+
+            <div class="brand">
                 HEINEKEN
             </div>
 
         </div>
 
 
-        <!-- Titre -->
+        <!-- TITRE -->
 
         <div class="title">
 
@@ -791,58 +1097,53 @@ button:active {
                 Calendrier annuel · Semaines ISO
             </div>
 
-            <div class="line"></div>
+            <div class="gold-line"></div>
 
         </div>
 
 
-        <div class="badge">
+        <!-- BADGE -->
+
+        <div class="year-badge">
 
             <strong>S1 → S53</strong>
 
-            <span>
-                29 DÉC. 2025<br>
-                → 03 JAN. 2027
-            </span>
+            <small>
+                29.12.2025<br>
+                → 03.01.2027
+            </small>
 
         </div>
 
-    </div>
+    </header>
 
 
-    <!-- JOURS -->
+    <!-- ==================================================
+         12 MOIS
+    ================================================== -->
 
-    <div class="weekdays">
-
-        <div>LUN</div>
-        <div>MAR</div>
-        <div>MER</div>
-        <div>JEU</div>
-        <div>VEN</div>
-        <div>SAM</div>
-        <div>DIM</div>
-
-    </div>
+    <main
+        class="months"
+        id="months">
+    </main>
 
 
-    <!-- SEMAINES -->
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
 
-    <div class="weeks" id="weeks"></div>
+    <footer class="footer">
 
+        <span>
+            <strong>HEINEKEN</strong>
+            · BRASSERIE · CONDITIONNEMENT
+        </span>
 
-    <!-- FOOTER -->
+        <span>
+            S1 — S53 · 2026
+        </span>
 
-    <div class="footer">
-
-        <div class="beer">
-            🍺 BRASSERIE · CONDITIONNEMENT · AMÉLIORATION CONTINUE
-        </div>
-
-        <div>
-            S1 — 29/12/2025 → S53 — 03/01/2027
-        </div>
-
-    </div>
+    </footer>
 
 </div>
 
@@ -850,17 +1151,50 @@ button:active {
 <script>
 
 /* =========================================================
-   CALCUL DES SEMAINES ISO
-   ========================================================= */
+   PARAMÈTRES
+========================================================= */
 
-/*
-    Pour 2026 :
-    
-    S1  = 29/12/2025 → 04/01/2026
-    ...
-    S52 = 21/12/2026 → 27/12/2026
-    S53 = 28/12/2026 → 03/01/2027
-*/
+const YEAR = 2026;
+
+
+/* =========================================================
+   MOIS
+========================================================= */
+
+const MONTHS = [
+
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre"
+
+];
+
+
+const DAYS = [
+
+    "Lu",
+    "Ma",
+    "Me",
+    "Je",
+    "Ve",
+    "Sa",
+    "Di"
+
+];
+
+
+/* =========================================================
+   CALCUL SEMAINE ISO
+========================================================= */
 
 function getISOWeek(date) {
 
@@ -872,230 +1206,399 @@ function getISOWeek(date) {
         )
     );
 
-    const day = d.getUTCDay() || 7;
+    const day =
+        d.getUTCDay() || 7;
 
     d.setUTCDate(
-        d.getUTCDate() + 4 - day
+        d.getUTCDate() +
+        4 -
+        day
     );
 
-    const yearStart = new Date(
-        Date.UTC(
-            d.getUTCFullYear(),
-            0,
-            1
-        )
-    );
+    const yearStart =
+        new Date(
+            Date.UTC(
+                d.getUTCFullYear(),
+                0,
+                1
+            )
+        );
 
     return Math.ceil(
         (
             (
-                (d - yearStart) / 86400000
-            ) + 1
+                d - yearStart
+            ) / 86400000 + 1
         ) / 7
     );
+
 }
 
 
 /* =========================================================
-   DATE DU LUNDI D'UNE SEMAINE ISO
-   ========================================================= */
+   LUNDI D'UNE SEMAINE ISO
+========================================================= */
 
-function getMondayOfISOWeek(
+function getISOWeekMonday(
     week,
     year
 ) {
 
-    const simple = new Date(
-        Date.UTC(year, 0, 4)
-    );
+    const date =
+        new Date(
+            Date.UTC(
+                year,
+                0,
+                4
+            )
+        );
 
     const day =
-        simple.getUTCDay() || 7;
+        date.getUTCDay() || 7;
 
-    simple.setUTCDate(
-        simple.getUTCDate() -
+    date.setUTCDate(
+        date.getUTCDate() -
         day +
         1 +
         (week - 1) * 7
     );
 
-    return simple;
+    return date;
+
 }
 
 
 /* =========================================================
-   FORMAT DATE
-   ========================================================= */
+   DATE LOCALE POUR COMPARAISON
+========================================================= */
 
-function formatDate(date) {
+function dateKey(date) {
 
-    const day =
-        String(date.getUTCDate())
-        .padStart(2, "0");
+    return [
+
+        date.getUTCFullYear(),
+
+        String(
+            date.getUTCMonth() + 1
+        ).padStart(2,"0"),
+
+        String(
+            date.getUTCDate()
+        ).padStart(2,"0")
+
+    ].join("-");
+
+}
+
+
+/* =========================================================
+   CRÉATION DU CALENDRIER
+========================================================= */
+
+function createMonth(
+    monthIndex
+) {
 
     const month =
-        String(date.getUTCMonth() + 1)
-        .padStart(2, "0");
+        document.createElement("section");
 
-    return `${day}/${month}`;
-}
+    month.className = "month";
 
 
-/* =========================================================
-   CREATION DES 53 SEMAINES
-   ========================================================= */
+    /* -----------------------------------------------------
+       TITRE
+    ----------------------------------------------------- */
 
-const container =
-    document.getElementById("weeks");
-
-const days =
-    [
-        "L",
-        "M",
-        "M",
-        "J",
-        "V",
-        "S",
-        "D"
-    ];
-
-
-/*
-
-    2026 possède 53 semaines ISO.
-
-*/
-
-for(let weekNumber = 1; weekNumber <= 53; weekNumber++) {
-
-    const monday =
-        getMondayOfISOWeek(
-            weekNumber,
-            2026
-        );
-
-    const sunday =
-        new Date(monday);
-
-    sunday.setUTCDate(
-        monday.getUTCDate() + 6
-    );
-
-
-    /* cellule */
-
-    const week =
+    const title =
         document.createElement("div");
 
-    week.className = "week";
+    title.className =
+        "month-title";
+
+
+    title.innerHTML = `
+
+        <span class="month-name">
+            ${MONTHS[monthIndex]}
+        </span>
+
+        <span class="month-year">
+            ${YEAR}
+        </span>
+
+    `;
+
+    month.appendChild(title);
+
+
+    /* -----------------------------------------------------
+       HEADER
+    ----------------------------------------------------- */
+
+    const head =
+        document.createElement("div");
+
+    head.className =
+        "calendar-head";
+
+
+    /* colonne semaine */
+
+    const sem =
+        document.createElement("div");
+
+    sem.className =
+        "week-head";
+
+    sem.textContent =
+        "SEM";
+
+    head.appendChild(sem);
+
+
+    /* jours */
+
+    DAYS.forEach(day => {
+
+        const element =
+            document.createElement("div");
+
+        element.className =
+            "day-head";
+
+        element.textContent =
+            day;
+
+        head.appendChild(element);
+
+    });
+
+
+    month.appendChild(head);
+
+
+    /* -----------------------------------------------------
+       GRILLE
+    ----------------------------------------------------- */
+
+    const grid =
+        document.createElement("div");
+
+    grid.className =
+        "calendar-grid";
 
 
     /*
-        Mise en évidence de la première
-        et dernière semaine.
+        Premier jour du mois.
+        JavaScript :
+        0 = dimanche
+        1 = lundi
+        ...
     */
 
-    if(
-        weekNumber === 1 ||
-        weekNumber === 53
-    ) {
-
-        week.classList.add("special");
-
-    }
-
-
-    /* numéro */
-
-    const number =
-        document.createElement("div");
-
-    number.className =
-        "week-number";
-
-    number.textContent =
-        `S${weekNumber}`;
-
-
-    week.appendChild(number);
-
-
-    /* dates */
-
-    const dates =
-        document.createElement("div");
-
-    dates.className = "dates";
-
-
-    for(let i = 0; i < 7; i++) {
-
-        const current =
-            new Date(monday);
-
-        current.setUTCDate(
-            monday.getUTCDate() + i
+    const first =
+        new Date(
+            Date.UTC(
+                YEAR,
+                monthIndex,
+                1
+            )
         );
 
 
-        const day =
-            document.createElement("div");
-
-        day.className = "day";
+    let mondayOffset =
+        first.getUTCDay() - 1;
 
 
-        /*
-            Samedi / dimanche
-        */
+    if(mondayOffset < 0) {
 
-        if(i >= 5) {
-
-            day.classList.add(
-                "weekend"
-            );
-
-        }
-
-
-        const letter =
-            document.createElement("span");
-
-        letter.className =
-            "letter";
-
-        letter.textContent =
-            days[i];
-
-
-        const numberDay =
-            document.createElement("span");
-
-        numberDay.className =
-            "number";
-
-        numberDay.textContent =
-            formatDate(current);
-
-
-        day.appendChild(letter);
-
-        day.appendChild(numberDay);
-
-        dates.appendChild(day);
+        mondayOffset = 6;
 
     }
 
 
-    week.appendChild(dates);
+    /*
+        42 cases :
+        6 lignes × 7 jours
+    */
 
-    container.appendChild(week);
+    const start =
+        new Date(first);
+
+    start.setUTCDate(
+        first.getUTCDate() -
+        mondayOffset
+    );
+
+
+    /* -----------------------------------------------------
+       6 SEMAINES
+    ----------------------------------------------------- */
+
+    for(let week = 0; week < 6; week++) {
+
+
+        /* date du lundi */
+
+        const monday =
+            new Date(start);
+
+        monday.setUTCDate(
+            start.getUTCDate() +
+            week * 7
+        );
+
+
+        /*
+            NUMÉRO ISO DE SEMAINE
+
+            C'est ici que chaque ligne
+            reçoit son numéro Sxx.
+        */
+
+        const weekNumber =
+            getISOWeek(monday);
+
+
+        const weekElement =
+            document.createElement("div");
+
+        weekElement.className =
+            "week-number";
+
+        weekElement.textContent =
+            `S${weekNumber}`;
+
+        grid.appendChild(
+            weekElement
+        );
+
+
+        /* -------------------------------------------------
+           7 JOURS
+        ------------------------------------------------- */
+
+        for(let dayIndex = 0; dayIndex < 7; dayIndex++) {
+
+
+            const date =
+                new Date(monday);
+
+            date.setUTCDate(
+                monday.getUTCDate() +
+                dayIndex
+            );
+
+
+            const cell =
+                document.createElement("div");
+
+            cell.className =
+                "day-cell";
+
+
+            /* date */
+
+            cell.textContent =
+                date.getUTCDate();
+
+
+            /* week-end */
+
+            if(dayIndex >= 5) {
+
+                cell.classList.add(
+                    "weekend"
+                );
+
+            }
+
+
+            /* dimanche */
+
+            if(dayIndex === 6) {
+
+                cell.classList.add(
+                    "sunday"
+                );
+
+            }
+
+
+            /* hors mois */
+
+            if(
+                date.getUTCMonth() !==
+                monthIndex
+            ) {
+
+                cell.classList.add(
+                    "other-month"
+                );
+
+            }
+
+
+            /*
+                Semaine courante
+                au moment de l'affichage.
+            */
+
+            if(
+                getISOWeek(date) ===
+                getISOWeek(new Date())
+                &&
+                date.getUTCFullYear() ===
+                YEAR
+            ) {
+
+                cell.classList.add(
+                    "current-week"
+                );
+
+            }
+
+
+            grid.appendChild(cell);
+
+        }
+
+    }
+
+
+    month.appendChild(grid);
+
+    return month;
+
+}
+
+
+/* =========================================================
+   GÉNÉRATION DES 12 MOIS
+========================================================= */
+
+const monthsContainer =
+    document.getElementById(
+        "months"
+    );
+
+
+for(
+    let month = 0;
+    month < 12;
+    month++
+) {
+
+    monthsContainer.appendChild(
+        createMonth(month)
+    );
 
 }
 
 
 /* =========================================================
    EXPORT PNG
-   ========================================================= */
+========================================================= */
 
 async function downloadPNG() {
 
@@ -1105,22 +1608,25 @@ async function downloadPNG() {
         );
 
 
-    /*
-        On masque les boutons car ils
-        ne doivent pas apparaître dans le PNG.
-    */
-
     const controls =
         document.querySelector(
             ".controls"
         );
 
-    controls.style.display = "none";
+
+    /* cacher les boutons */
+
+    controls.style.display =
+        "none";
 
 
     /*
-        html2canvas transforme le calendrier
-        en image haute résolution.
+        1800 × 1800 px.
+
+        Le calendrier reste physiquement
+        15 × 15 cm dans le navigateur /
+        à l'impression, mais l'image
+        exportée est beaucoup plus nette.
     */
 
     const canvas =
@@ -1128,46 +1634,46 @@ async function downloadPNG() {
             calendar,
             {
 
-                width: 1200,
+                width: 566.93,
 
-                height: 1200,
+                height: 566.93,
 
-                scale: 2,
+                scale: 3,
 
                 backgroundColor:
-                    "#00652f",
+                    "#005c2d",
 
                 useCORS: true,
 
-                logging: false
+                logging: false,
+
+                imageTimeout: 0
 
             }
         );
 
 
-    /*
-        Téléchargement
-    */
-
     const link =
         document.createElement("a");
 
+
     link.download =
         "Calendrier_Heineken_2026_S1-S53.png";
+
 
     link.href =
         canvas.toDataURL(
             "image/png"
         );
 
+
     link.click();
 
 
-    /*
-        On réaffiche les boutons.
-    */
+    /* réafficher */
 
-    controls.style.display = "flex";
+    controls.style.display =
+        "flex";
 
 }
 
